@@ -9,11 +9,17 @@ function ToDo(prop) {
         setList([...list, item]);
     };
 
+    const handleDelete = (index) => {
+        const newList = [...list];
+        newList.splice(index, 1);
+        setList(newList);
+    }
+
     return (
         <div className="">
             <AddList onSubmit={addSubmit} />
             <ul className="mt-5">
-                {list.map((val, i) => <li key={i}><Item name={val} /></li>)}
+                {list.map((val, i) => <li key={i}><Item name={val} index={i} onDelete={handleDelete} /></li>)}
             </ul>
         </div>
     );
