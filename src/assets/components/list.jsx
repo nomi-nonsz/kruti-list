@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useRef } from "react";
+
 import Checkbox from "./form/checkbox";
 import DeleteIcon from "./actions/delete"
 import classNames from "classnames";
@@ -11,11 +12,15 @@ function Item(prop) {
     
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
+    const editRef = useRef(null);
+
     const [wantEdit, setEdit] = useState(false);
     const [editVal, setEditVal] = useState("");
 
     const [elfit, setElfit] = useState(false);
     const [eldel, setEldel] = useState(false);
+
+    const [toolong, setToolong] = useState(false);
 
     const toggleEdit = () => {
         setEditVal(name);
@@ -30,9 +35,7 @@ function Item(prop) {
 
         e.preventDefault();
     }
-
-    const handleChange = e => setEditVal(e.target.value);
-
+    const handleChange = (e) => {setEditVal(e.target.value.length <= 50 ? e.target.value : editVal)}
     const handleDelete = () => {
         setEldel(true);
         setTimeout(() => {
@@ -46,22 +49,37 @@ function Item(prop) {
     }
 
     useEffect(() => {
+        editRef.current && editRef.current.focus();
+    }, [wantEdit]);
+
+    useEffect(() => {
         setElfit(true);
         setEldel(false);
     }, []);
 
-    return <div className={classNames("px-4 my-2 overflow-hidden transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
+    return <div className={classNames("px-4 my-2 overflow-y-hidden transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
         <div className="flex flex-row items-center">
             <div className="py-4">
                 <Checkbox />
             </div>
             <div className="ms-2">
-                {
-                    !wantEdit ? name : <form method="post" onSubmit={handleEdit}><input type="text" name="" id="" value={editVal} onChange={handleChange} className="px-1 bg-indigo-50 bg-opacity-80 rounded border border-blue-400 border-opacity-40" /></form>
+                { !wantEdit ?
+                    <p>{name}</p> :
+                    <form method="post" onSubmit={handleEdit}>
+                        <input
+                            type="text"
+                            ref={editRef}
+                            name=""
+                            id=""
+                            value={editVal}
+                            onChange={handleChange}
+                            className="px-1 bg-indigo-50 bg-opacity-80 rounded border border-blue-400 border-opacity-40"
+                        />
+                    </form>
                 }
             </div>
         </div>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row ps-2 items-center">
             <div className="me-2">
                 { !wantEdit ? <EditIcon onClick={toggleEdit} /> : <DoneIcon onClick={handleEdit} />}
             </div>

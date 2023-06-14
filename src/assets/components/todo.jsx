@@ -3,7 +3,7 @@ import AddList from "./form/addList";
 import Item from "./list";
 
 function ToDo(prop) {
-    let [list, setList] = useState(prop.list)
+    const [list, setList] = useState(prop.list);
 
     const addSubmit = (item) => {
         setList([...list, item]);
