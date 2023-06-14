@@ -81,7 +81,7 @@ function Item(prop) {
         </div>
         <div className="flex flex-row ps-2 items-center">
             <div className="me-2">
-                { !wantEdit ? <EditIcon onClick={toggleEdit} /> : <DoneIcon onClick={handleEdit} />}
+                { !wantEdit ? <EditIcon onClick={toggleEdit} /> : <DoneIcon active={editVal.length > 0} onClick={handleEdit} />}
             </div>
             <div className="">
                 { !wantEdit ? <DeleteIcon onClick={handleDelete} /> : <CancelIcon onClick={toggleEdit} /> }
