@@ -8,7 +8,7 @@ function AddList(prop) {
     };
 
     const handleSubmit = (e) => {
-        if (item != "") {
+        if (item !== "") {
             prop.onSubmit(item);
             setItem("");
         }

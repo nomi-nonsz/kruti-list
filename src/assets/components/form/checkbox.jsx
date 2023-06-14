@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 
