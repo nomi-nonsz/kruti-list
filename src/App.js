@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ToDo from "./assets/components/todo";
 
-import AuthorImg from "./assets/images/author.png";
-import AuthorBlinkImg from "./assets/images/author_blink.png"
+import AuthorImg from "./assets/images/author.svg";
+import AuthorBlinkImg from "./assets/images/author_blink.svg";
 
 import './assets/icons/bootstrap/bootstrap-icon.css';
 import './assets/components/fonts/google-fonts.css';
