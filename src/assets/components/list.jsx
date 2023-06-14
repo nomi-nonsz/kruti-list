@@ -4,6 +4,7 @@ import DeleteIcon from "./actions/delete"
 import classNames from "classnames";
 import EditIcon from "./actions/edit";
 import DoneIcon from "./actions/done";
+import CancelIcon from "./actions/cancel";
 
 function Item(prop) {
     let name = prop.name;
@@ -16,13 +17,18 @@ function Item(prop) {
     const [elfit, setElfit] = useState(false);
     const [eldel, setEldel] = useState(false);
 
-    const handleEdit = () => {
-        if (wantEdit) {
-            // prop.onEdit(prop.index);
-        }
-        
+    const toggleEdit = () => {
         setEditVal(name);
         setEdit(!wantEdit);
+    }
+
+    const handleEdit = (e) => {
+        if (wantEdit) {
+            prop.onEdit(editVal, prop.index);
+            setEdit(false);
+        }
+
+        e.preventDefault();
     }
 
     const handleChange = e => setEditVal(e.target.value);
@@ -51,15 +57,17 @@ function Item(prop) {
             </div>
             <div className="ms-2">
                 {
-                    !wantEdit ? name : <input type="text" name="" id="" value={editVal} onChange={handleChange} className="px-1 bg-indigo-50 bg-opacity-80 rounded border border-blue-400 border-opacity-40" />
+                    !wantEdit ? name : <form method="post" onSubmit={handleEdit}><input type="text" name="" id="" value={editVal} onChange={handleChange} className="px-1 bg-indigo-50 bg-opacity-80 rounded border border-blue-400 border-opacity-40" /></form>
                 }
             </div>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center">
             <div className="me-2">
-                { !wantEdit ? <EditIcon onClick={handleEdit} /> : <DoneIcon onClick={handleEdit} />}
+                { !wantEdit ? <EditIcon onClick={toggleEdit} /> : <DoneIcon onClick={handleEdit} />}
             </div>
-            <div className=""><DeleteIcon onClick={handleDelete} /></div>
+            <div className="">
+                { !wantEdit ? <DeleteIcon onClick={handleDelete} /> : <CancelIcon onClick={toggleEdit} /> }
+            </div>
         </div>
     </div>
 }
