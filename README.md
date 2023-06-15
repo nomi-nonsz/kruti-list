@@ -1,3 +1,14 @@
+## Project delayed
+
+I still have quite limited knowledge to implement a backend for Node.js.
+
+- [x] Static web
+- [x] Not suitable for important list
+- [x] Only for personal use
+- [x] Will not be saved to the server
+
+The project was released but postponed until I can learn database and OAuth. or not taken care of forever??
+
 # Kruti list
 
 Kruti list is a **free**, **simple**, and **open-source** to-do-list app that can do something even better. You can share, publish, or just keep it to yourself.
