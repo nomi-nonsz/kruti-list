@@ -6,6 +6,7 @@ I still have quite limited knowledge to implement a backend for Node.js.
 - [x] Not suitable for important list
 - [x] Only for personal use
 - [x] Will not be saved to the server
+- [x] Save locally
 
 The project was released but postponed until I can learn database and OAuth. or not taken care of forever??
 

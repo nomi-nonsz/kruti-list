@@ -20,8 +20,6 @@ function Item(prop) {
     const [elfit, setElfit] = useState(false);
     const [eldel, setEldel] = useState(false);
 
-    const [toolong, setToolong] = useState(false);
-
     const toggleEdit = () => {
         setEditVal(name);
         setEdit(!wantEdit);
@@ -36,7 +34,21 @@ function Item(prop) {
         e.preventDefault();
     }
     const handleChange = (e) => {setEditVal(e.target.value.length <= 50 ? e.target.value : editVal)}
+
     const handleDelete = () => {
+        setEldel(true);
+        setTimeout(() => {
+            setElfit(false);
+            setEldel(false);
+            setTimeout(() => {
+                setElfit(true);
+                prop.onDelete(prop.index);
+            }, 500);
+        }, 1000)
+    }
+
+
+    const listDelete = () => {
         setEldel(true);
         setTimeout(() => {
             setElfit(false);
@@ -57,7 +69,7 @@ function Item(prop) {
         setEldel(false);
     }, []);
 
-    return <div className={classNames("px-4 my-2 overflow-y-hidden transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
+    return <div className={classNames("px-4 my-2 overflow-hidden transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
         <div className="flex flex-row items-center">
             <div className="py-4">
                 <Checkbox />
