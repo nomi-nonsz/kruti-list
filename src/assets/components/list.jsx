@@ -6,6 +6,7 @@ import classNames from "classnames";
 import EditIcon from "./actions/edit";
 import DoneIcon from "./actions/done";
 import CancelIcon from "./actions/cancel";
+import { ModalDelete } from "./modal/listModal";
 
 function Item(prop) {
     let name = prop.name;
@@ -13,6 +14,8 @@ function Item(prop) {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     const editRef = useRef(null);
+
+    const [delview, setDelview] = useState(false);
 
     const [wantEdit, setEdit] = useState(false);
     const [editVal, setEditVal] = useState("");
@@ -36,6 +39,7 @@ function Item(prop) {
     const handleChange = (e) => {setEditVal(e.target.value.length <= 50 ? e.target.value : editVal)}
 
     const handleDelete = () => {
+        // callback hell💀💀
         setEldel(true);
         setTimeout(() => {
             setElfit(false);
@@ -47,17 +51,8 @@ function Item(prop) {
         }, 1000)
     }
 
-
-    const listDelete = () => {
-        setEldel(true);
-        setTimeout(() => {
-            setElfit(false);
-            setEldel(false);
-            setTimeout(() => {
-                setElfit(true);
-                prop.onDelete(prop.index);
-            }, 500);
-        }, 1000)
+    const handleRequest = () => {
+        setDelview(!delview);
     }
 
     useEffect(() => {
@@ -69,7 +64,7 @@ function Item(prop) {
         setEldel(false);
     }, []);
 
-    return <div className={classNames("px-4 my-2 overflow-hidden transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
+    return <div className={classNames("relative px-4 my-2 overflow-visible transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
         <div className="flex flex-row items-center">
             <div className="py-4">
                 <Checkbox />
@@ -96,9 +91,14 @@ function Item(prop) {
                 { !wantEdit ? <EditIcon onClick={toggleEdit} /> : <DoneIcon active={editVal.length > 0} onClick={handleEdit} />}
             </div>
             <div className="">
-                { !wantEdit ? <DeleteIcon onClick={handleDelete} /> : <CancelIcon onClick={toggleEdit} /> }
+                { !wantEdit ? <DeleteIcon onClick={handleRequest} /> : <CancelIcon onClick={toggleEdit} /> }
             </div>
         </div>
+        <ModalDelete
+            view={delview}
+            setView={setDelview}
+            handleDelete={handleDelete}
+        />
     </div>
 }
 

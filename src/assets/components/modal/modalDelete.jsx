@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import trash from "../images/bye.png";
-import Checkbox from "./form/checkbox";
-import { BtnPrimary, BtnSecondary } from "./actions/buttons";
+import Checkbox from "../form/checkbox";
+import { BtnPrimary, BtnSecondary } from "../actions/buttons";
 
-function ModalDelete(prop) {
+export function ModalDelete(prop) {
     const [life, setLife] = useState(false);
 
     return <div className={`w-screen ${life ? "block" : "hidden"} h-screen bg-black bg-opacity-30 fixed top-0 left-0 z-10`}>

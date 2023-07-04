@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AddList from "./form/addList";
 import Item from "./list";
-import ModalDelete from "./modal";
 
 function ToDo(prop) {
     const [list, setList] = useState(prop.list);
-
-    const [wantDel, setWantDel] = useState(false); 
 
     const addSubmit = (item) => {
         setList([...list, item]);
@@ -26,7 +23,6 @@ function ToDo(prop) {
 
     return (
         <div className="">
-            <ModalDelete del={wantDel} />
             <AddList onSubmit={addSubmit} />
             <ul className="mt-5">
                 {list.map((val, i) => (
