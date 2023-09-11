@@ -24,7 +24,7 @@ router.post("/api/register", async (req, res) => {
         }).save();
         const data = user.toObject();
     
-        return res.status(201).json(data).end();
+        return res.sendStatus(201);
     }
     catch (error) {
         console.error("Register failed");
@@ -57,10 +57,63 @@ router.get('/api/login', async (req, res) => {
         await user.save();
         res.cookie('token', token, { expires: expired });
 
-        return res.sendStatus(200);
+        return res.status(200).json({
+            email: user.email,
+            token: user.token,
+            lists: user.lists
+        }).end();
     }
     catch (error) {
         console.error("Login failed");
+        console.error(error);
+        res.sendStatus(400);
+    }
+});
+
+router.post('/api/list', async (req, res) => {
+    const { lists } = req.body;
+    const { token } = req.cookies;
+
+    try {
+        if (!lists || !token)
+            return res.sendStatus(400);
+
+        const user = await ListModel.findOne({ token });
+
+        if (!user)
+            return res.sendStatus(400);
+
+        user.lists = lists;
+        await user.save();
+
+        return res.sendStatus(201);
+    }
+    catch (error) {
+        console.error("Post list failed");
+        console.error(error);
+        res.sendStatus(400);
+    }
+});
+
+router.get('/api/list/', async (req, res) => {
+    const { token } = req.cookies;
+
+    try {
+        if (!token)
+            return res.sendStatus(400);
+
+        const user = await ListModel.findOne({ token });
+
+        if (!user)
+            return res.sendStatus(400);
+
+        return res
+            .status(200)
+            .json({ email: user.email, lists: user.lists })
+            .end();
+    }
+    catch (error) {
+        console.error("Get list failed");
         console.error(error);
         res.sendStatus(400);
     }
