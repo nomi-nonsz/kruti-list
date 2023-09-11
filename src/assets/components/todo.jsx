@@ -21,6 +21,10 @@ function ToDo(prop) {
         setList(newList);
     }
 
+    useEffect(() => {
+        console.log(list);
+    })
+
     return (
         <div className="">
             <AddList onSubmit={addSubmit} />
@@ -28,7 +32,8 @@ function ToDo(prop) {
                 {list.map((val, i) => (
                     <li key={i}>
                         <Item
-                            name={val}
+                            name={val.name}
+                            check={val.check}
                             index={i}
                             onDelete={handleDelete}
                             onEdit={handleEdit}

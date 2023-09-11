@@ -10,15 +10,15 @@ import { ModalDelete } from "./modal/listModal";
 
 function Item(prop) {
     let name = prop.name;
-    
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     const editRef = useRef(null);
 
     const [delview, setDelview] = useState(false);
 
     const [wantEdit, setEdit] = useState(false);
+    
     const [editVal, setEditVal] = useState("");
+    const [checkVal, setCheck] = useState(prop.check);
 
     const [elfit, setElfit] = useState(false);
     const [eldel, setEldel] = useState(false);
@@ -30,25 +30,29 @@ function Item(prop) {
 
     const handleEdit = (e) => {
         if (wantEdit) {
-            prop.onEdit(editVal, prop.index);
+            prop.onEdit({name: editVal, check: checkVal}, prop.index);
             setEdit(false);
         }
 
         e.preventDefault();
     }
+    
     const handleChange = (e) => {setEditVal(e.target.value.length <= 50 ? e.target.value : editVal)}
+    const checkChange = () => {
+        setCheck(!checkVal);
+        prop.onEdit({name: editVal, check: !checkVal}, prop.index);
+    }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         // callback hell💀💀
         setEldel(true);
-        setTimeout(() => {
-            setElfit(false);
-            setEldel(false);
-            setTimeout(() => {
-                setElfit(true);
-                prop.onDelete(prop.index);
-            }, 500);
-        }, 1000)
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setElfit(false);
+        setEldel(false);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setElfit(true);
+        prop.onDelete(prop.index);
     }
 
     const handleRequest = () => {
@@ -67,7 +71,7 @@ function Item(prop) {
     return <div className={classNames("relative px-4 my-2 overflow-visible transition-all duration-500 shadow-sm border rounded border-blue-500 border-opacity-30 flex flex-row items-center justify-between", {"opacity-0": !elfit}, {"w-0p": !elfit}, {"w-full": elfit}, {"bg-white": !eldel}, {"bg-rose-300" : eldel}, {"border-rose-700": eldel})}>
         <div className="flex flex-row items-center">
             <div className="py-4">
-                <Checkbox />
+                <Checkbox value={checkVal} handleChange={checkChange} />
             </div>
             <div className="ms-2">
                 { !wantEdit ?

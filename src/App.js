@@ -33,7 +33,9 @@ function App() {
         <p className="mt-1 mx-auto font-roboto w-3/4">Kruti list is a <b className="">free</b> and <b className="">simple</b> to-do list app that can do something even better...</p>
       </header>
       <section className="mt-10 font-roboto">
-        <ToDo list={[]} />
+        <ToDo
+          list={[]}
+        />
       </section>
       <footer className="mt-20 text-center text-sm font-roboto">
         <p>This is a React App was made<br/>by Norman Andrians</p>

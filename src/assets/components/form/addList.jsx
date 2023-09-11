@@ -14,7 +14,10 @@ function AddList(prop) {
 
     const handleSubmit = (e) => {
         if (item !== "") {
-            prop.onSubmit(item);
+            prop.onSubmit({
+                name: item,
+                check: false
+            });
             setItem("");
         }
         e.preventDefault();
