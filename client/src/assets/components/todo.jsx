@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Cookie from "js-cookie";
 import AddList from "./form/addList";
 import Item from "./list";
 
@@ -22,7 +23,18 @@ function ToDo(prop) {
     }
 
     useEffect(() => {
-        console.log(list);
+        const token = Cookie.get("token");
+
+        if (token) {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/list`)
+                .then(data => data.json())
+                .then(data => {
+                    setList(data.lists)
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     })
 
     return (
