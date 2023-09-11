@@ -8,7 +8,7 @@ router.get("/test", (req, res) => {
     res.sendStatus(200);
 })
 
-router.post("/api/register", async (req, res) => {
+router.post("/register", async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -33,7 +33,7 @@ router.post("/api/register", async (req, res) => {
     }
 });
 
-router.get('/api/login', async (req, res) => {
+router.get('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -70,7 +70,7 @@ router.get('/api/login', async (req, res) => {
     }
 });
 
-router.post('/api/list', async (req, res) => {
+router.post('/list', async (req, res) => {
     const { lists } = req.body;
     const { token } = req.cookies;
 
@@ -95,7 +95,7 @@ router.post('/api/list', async (req, res) => {
     }
 });
 
-router.get('/api/list/', async (req, res) => {
+router.get('/list/', async (req, res) => {
     const { token } = req.cookies;
 
     try {

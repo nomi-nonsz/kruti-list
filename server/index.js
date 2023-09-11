@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
-app.use(routes);
+app.use("/api", routes);
 
 mongoose.connect(MONGO_URI);
 mongoose.connection
