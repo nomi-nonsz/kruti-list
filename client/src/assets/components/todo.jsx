@@ -26,7 +26,7 @@ function ToDo(prop) {
     useEffect(() => {
         const token = Cookies.get("token");
 
-        if (token) {
+        if (token && list.length < 1) {
             axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/list`, {
                 withCredentials: true
             })
@@ -38,7 +38,7 @@ function ToDo(prop) {
                     console.log(error);
                 })
         }
-    }, []);
+    }, [list]);
 
     return (
         <div className="">

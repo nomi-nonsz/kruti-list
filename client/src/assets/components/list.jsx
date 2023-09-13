@@ -40,7 +40,7 @@ function Item(prop) {
     const handleChange = (e) => {setEditVal(e.target.value.length <= 50 ? e.target.value : editVal)}
     const checkChange = () => {
         setCheck(!checkVal);
-        prop.onEdit({name: editVal, check: !checkVal}, prop.index);
+        prop.onEdit({name: name, check: !checkVal}, prop.index);
     }
 
     const handleDelete = async () => {
@@ -58,6 +58,10 @@ function Item(prop) {
     const handleRequest = () => {
         setDelview(!delview);
     }
+
+    useEffect(() => {
+        setCheck(prop.check);
+    }, [prop.name, prop.check]);
 
     useEffect(() => {
         editRef.current && editRef.current.focus();
