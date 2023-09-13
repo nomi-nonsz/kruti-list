@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -55,7 +55,12 @@ router.get('/login', async (req, res) => {
 
         user.token = token;
         await user.save();
-        res.cookie('token', token, { expires: expired });
+        
+        res.cookie('token', token, {
+            expires: expired,
+            sameSite: 'Lax',
+            path: "/"
+        });
 
         return res.status(200).json({
             email: user.email,
@@ -100,7 +105,7 @@ router.get('/list/', async (req, res) => {
 
     try {
         if (!token)
-            return res.sendStatus(400);
+            return res.sendStatus(401);
 
         const user = await ListModel.findOne({ token });
 

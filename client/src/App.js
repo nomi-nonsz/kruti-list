@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  BrowserRouter as Router,
+  useLocation
+} from "react-router-dom";
 import ToDo from "./assets/components/todo";
 
 import AuthorImg from "./assets/images/author.svg";
@@ -8,8 +13,13 @@ import './assets/icons/bootstrap/bootstrap-icon.css';
 import './assets/components/fonts/google-fonts.css';
 import './assets/css/dist/output.css';
 import './assets/css/utilities.css';
+import LoginModal from "./assets/components/modal/loginModal";
 
-function App() {
+function Body() {
+  const search = useLocation().search;
+  const params = new URLSearchParams(search);
+  const isLogin = params.get("login");
+
   const [blink, setBlink] = useState(false);
 
   const autblink = () => {
@@ -17,8 +27,9 @@ function App() {
   }
 
   return <>
+    {isLogin && <LoginModal />}
     <main className="bg-indigo-100 bg-opacity-80 pt-24 pb-5 px-20 h-screen overflow-scroll">
-      <div className="absolute top-3 left-3">
+      <div className="absolute top-3 px-8 py-4 left-0 flex justify-between w-full">
         <img
           className="w-14"
           src={blink ? AuthorBlinkImg : AuthorImg}
@@ -27,6 +38,9 @@ function App() {
           alt="author"
           title="that's is my character"
         />
+        <Link to="?login=true">
+          <button type="button" className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-3">Login</button>
+        </Link>
       </div>
       <header className="text-center">
         <h1 className="text-3xl font-poppins font-bold text-blue-600">Kruti List</h1>
@@ -42,6 +56,14 @@ function App() {
       </footer>
     </main>
   </>
+}
+
+function App() {
+  return (
+    <Router>
+      <Body />
+    </Router>
+  )
 }
 
 export default App;

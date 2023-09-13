@@ -13,9 +13,12 @@ const app = express();
 const PORT = 6969;
 const MONGO_URI = process.env.MONGO_URI;
 
+app.use(cors({
+    credentials: true,
+    origin: true
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
 
 app.use("/api", routes);
 

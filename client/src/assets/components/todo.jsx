@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 import AddList from "./form/addList";
 import Item from "./list";
+import axios from "axios";
 
 function ToDo(prop) {
     const [list, setList] = useState(prop.list);
@@ -23,19 +24,21 @@ function ToDo(prop) {
     }
 
     useEffect(() => {
-        const token = Cookie.get("token");
+        const token = Cookies.get("token");
 
         if (token) {
-            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/list`)
-                .then(data => data.json())
-                .then(data => {
-                    setList(data.lists)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/list`, {
+                withCredentials: true
+            })
+                .then(({data}) => {
+                    setList(data.lists);
+                    return data.lists;
                 })
                 .catch((error) => {
                     console.log(error);
                 })
         }
-    })
+    }, []);
 
     return (
         <div className="">
