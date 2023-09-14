@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require("../middleware/auth");
 const { ListModel } = require('../model');
 const { generateToken, hashPassword, comparePassword } = require('../helper');
 
@@ -63,9 +64,9 @@ router.post('/login', async (req, res) => {
         });
 
         return res.status(200).json({
+            id: user._id,
             email: user.email,
-            token: user.token,
-            lists: user.lists
+            token: user.token
         }).end();
     }
     catch (error) {
@@ -75,7 +76,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/list', async (req, res) => {
+router.patch('/list', auth, async (req, res) => {
     const { lists } = req.body;
     const { token } = req.cookies;
 
@@ -100,17 +101,17 @@ router.post('/list', async (req, res) => {
     }
 });
 
-router.get('/list/', async (req, res) => {
+router.get('/list/', auth, async (req, res) => {
     const { token } = req.cookies;
 
     try {
         if (!token)
-            return res.sendStatus(401);
+            return res.sendStatus(400);
 
         const user = await ListModel.findOne({ token });
 
         if (!user)
-            return res.sendStatus(400);
+            return res.sendStatus(403);
 
         return res
             .status(200)
