@@ -10,14 +10,15 @@ router.get("/test", (req, res) => {
 })
 
 router.post("/register", async (req, res) => {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
-        if (!email || !password)
+        if (!username || !email || !password)
             return res.sendStatus(400);
 
         const hashed = await hashPassword(password);
         const user = await new ListModel({
+            username,
             email,
             password: hashed,
             token: null,

@@ -104,11 +104,31 @@ function LoginModal () {
         }
     }
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
 
-        const email = e.target[0].value;
-        const password = e.target[1].value;
+        const username = e.target[0].value;
+        const email = e.target[1].value;
+        const password = e.target[2].value;
+
+        if (!username || !email || !password) {
+            alert("username, email and password required");
+            return;
+        }
+
+        try {
+            const body = { username, email, password };
+
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, body, {
+                withCredentials: true
+            });
+
+            navigate("/");
+        }
+        catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 
     return (

@@ -3,8 +3,10 @@ import Cookies from "js-cookie";
 import AddList from "./form/addList";
 import Item from "./list";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function ToDo(prop) {
+    const location = useLocation();
     const [list, setList] = useState(prop.list);
 
     const addSubmit = (item) => {
@@ -26,7 +28,7 @@ function ToDo(prop) {
     useEffect(() => {
         const token = Cookies.get("token");
 
-        if (token && list.length < 1) {
+        if (token) {
             axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/list`, {
                 withCredentials: true
             })
@@ -38,7 +40,7 @@ function ToDo(prop) {
                     console.log(error);
                 })
         }
-    }, [list]);
+    }, [location]);
 
     return (
         <div className="">
