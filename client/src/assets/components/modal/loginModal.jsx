@@ -70,8 +70,8 @@ function SignUp ({ handle }) {
     </>
 }
 
-function LoginModal () {
-    const [state, setState] = useState(0);
+function LoginModal ({ stat }) {
+    const [state, setState] = useState(stat || 0);
     const navigate = useNavigate();
 
     const toggleSwitch = () => {

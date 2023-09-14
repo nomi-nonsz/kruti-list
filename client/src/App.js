@@ -27,7 +27,7 @@ function Body() {
   }
 
   return <>
-    {isLogin && <LoginModal />}
+    {isLogin === "login" ? <LoginModal /> : (isLogin === "signup" && <LoginModal stat={1} />)}
     <main className="bg-indigo-100 bg-opacity-80 pt-24 pb-5 px-20 h-screen overflow-scroll">
       <div className="absolute top-3 px-8 py-4 left-0 flex justify-between w-full">
         <img
@@ -38,9 +38,14 @@ function Body() {
           alt="author"
           title="that's is my character"
         />
-        <Link to="?login=true">
-          <button type="button" className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-3">Login</button>
-        </Link>
+        <div className="flex gap-4">
+          <Link to="?login=signup">
+            <button type="button" className="rounded h-fit transition duration-300 text-blue-600 hover:bg-blue-100 px-6 py-3 border-2 border-blue-600">Sign up</button>
+          </Link>
+          <Link to="?login=login">
+            <button type="button" className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-3">Login</button>
+          </Link>
+        </div>
       </div>
       <header className="text-center">
         <h1 className="text-3xl font-poppins font-bold text-blue-600">Kruti List</h1>
