@@ -25,6 +25,14 @@ function ToDo(prop) {
         setList(newList);
     }
 
+    const saveList = () => {
+        const body = { lists: list };
+
+        axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/list`, body, {
+            withCredentials: true
+        })
+    }
+
     useEffect(() => {
         const token = Cookies.get("token");
 
@@ -43,7 +51,7 @@ function ToDo(prop) {
     }, [location]);
 
     return (
-        <div className="">
+        <div className="md:w-[540px] mx-auto">
             <AddList onSubmit={addSubmit} />
             <ul className="mt-5">
                 {list.map((val, i) => (
@@ -58,6 +66,9 @@ function ToDo(prop) {
                     </li>
                 ))}
             </ul>
+            {list.length > 0 &&
+                <button type="button" onClick={saveList} className="mt-2 rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-2">Save</button>
+            }
         </div>
     );
 }

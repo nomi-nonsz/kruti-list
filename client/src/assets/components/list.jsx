@@ -7,6 +7,7 @@ import EditIcon from "./actions/edit";
 import DoneIcon from "./actions/done";
 import CancelIcon from "./actions/cancel";
 import { ModalDelete } from "./modal/listModal";
+import Cookies from "js-cookie";
 
 function Item(prop) {
     let name = prop.name;
@@ -56,6 +57,10 @@ function Item(prop) {
     }
 
     const handleRequest = () => {
+        if (Cookies.get("delete_notif") && Cookies.get("delete_notif") === "true") {
+            handleDelete();
+            return;
+        }
         setDelview(!delview);
     }
 

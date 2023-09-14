@@ -24,7 +24,7 @@ function AddList(prop) {
     };
 
     return (
-        <div className="w-96 m-auto">
+        <div className="sm:w-96 m-auto">
             <form className="flex flex-row" onSubmit={handleSubmit}>
                 <input
                     className="basis-3/4 border border-blue-400 border-opacity-50 rounded px-3 py-2 me-3"

@@ -144,7 +144,7 @@ function LoginModal ({ stat }) {
 
     return (
         <div className="w-screen h-screen absolute z-10 left-0 top-0 bg-black bg-opacity-20">
-            <div className="bg-white p-10 absolute inset-0 m-auto w-[480px] h-fit rounded-md">
+            <div className="bg-white p-10 absolute inset-0 m-auto w-[480px] h-fit rounded-md shadow-xl">
                 <section className="flex mb-8 justify-between">
                     <button className="py-2 px-6 rounded border border-black border-opacity-50 hover:bg-black hover:bg-opacity-10" onClick={toggleSwitch}>
                         {state == 0 ? "Sign up" : "Login"}
