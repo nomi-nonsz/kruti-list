@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Link,
+  useNavigate,
   BrowserRouter as Router,
   useLocation
 } from "react-router-dom";
@@ -14,8 +15,11 @@ import './assets/components/fonts/google-fonts.css';
 import './assets/css/dist/output.css';
 import './assets/css/utilities.css';
 import LoginModal from "./assets/components/modal/loginModal";
+import Cookies from "js-cookie";
 
 function Body() {
+  const navigate = useNavigate();
+
   const search = useLocation().search;
   const params = new URLSearchParams(search);
   const isLogin = params.get("login");
@@ -38,13 +42,27 @@ function Body() {
           alt="author"
           title="that's is my character"
         />
-        <div className="flex gap-4">
-          <Link to="?login=signup">
-            <button type="button" className="rounded h-fit transition duration-300 text-blue-600 hover:bg-blue-100 px-6 py-3 border-2 border-blue-600">Sign up</button>
-          </Link>
-          <Link to="?login=login">
-            <button type="button" className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-3">Login</button>
-          </Link>
+        <div className="flex gap-4 items-center">
+          {!Cookies.get("username") ? ( <>
+            <Link to="?login=signup">
+              <button type="button" className="rounded h-fit transition duration-300 text-blue-600 hover:bg-blue-200 px-6 py-3 border-2 border-blue-600">Sign up</button>
+            </Link>
+            <Link to="?login=login">
+              <button type="button" className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-3 border-2 border-blue-600">Login</button>
+            </Link>
+          </>) : (<>
+            <div className="">{Cookies.get("username")}</div>
+            <button
+              type="button"
+              className="rounded h-fit transition duration-300 text-blue-600 hover:bg-blue-200 px-5 py-3 ms-5 border-2 border-blue-600"
+              onClick={() => {
+                Cookies.remove("token");
+                Cookies.remove("username");
+                navigate("/");
+              }}
+              >Logout
+            </button>
+          </>)}
         </div>
       </div>
       <header className="text-center">

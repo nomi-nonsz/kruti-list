@@ -91,9 +91,20 @@ function LoginModal ({ stat }) {
 
         try {
             const body = { email, password };
-            
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, body, {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, body, {
                 withCredentials: true
+            })
+
+            if (res.status < 200 && res.status >= 300) {
+                alert("login failed");
+                navigate("/");
+                return;
+            }
+
+            const data = await res.data;
+            Cookies.set("username", data.username, {
+                sameSite: "Lax",
+                expires: new Date(Date.now() + (7 * (3600000 * 24)))
             })
 
             navigate("/");
