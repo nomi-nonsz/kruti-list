@@ -41,7 +41,7 @@ function ToDo(prop) {
             saveList();
             return;
         }
-        navigate("?login=login");
+        navigate("?login=signup");
     }
 
     useEffect(() => {

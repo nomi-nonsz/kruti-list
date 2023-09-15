@@ -8,7 +8,7 @@ function Login ({ handle }) {
     return <>
         <header className="text-center mb-5">
             <h2 className="text-2xl font-bold mb-2">Login</h2>
-            <p className="">To save your lists, you need to login first</p>
+            <p className="">To load your lists, you need to login first<br />If the is list available, the list will be pushed</p>
         </header>
         <form action="" onSubmit={handle} method="get" className="">
             <FormItem
@@ -37,7 +37,7 @@ function SignUp ({ handle }) {
     return <>
         <header className="text-center mb-5">
             <h2 className="text-2xl font-bold mb-2">Sign up</h2>
-            <p className="">Create your account</p>
+            <p className="">To save your lists, you need to create your account first</p>
         </header>
         <form action="" onSubmit={handle} method="get" className="">
             <FormItem
@@ -117,7 +117,7 @@ function LoginModal ({ stat, list }) {
             })
 
             if (res.status < 200 && res.status >= 300) {
-                alert("login failed");
+                alert(`wrong email or password, status: ${res.status}`);
                 navigate("/");
                 return;
             }
@@ -132,7 +132,7 @@ function LoginModal ({ stat, list }) {
         }
         catch (error) {
             console.error(error);
-            alert(error);
+            alert(`login failed, Debug error: ${error}`);
         }
     }
 
@@ -152,15 +152,20 @@ function LoginModal ({ stat, list }) {
         try {
             const body = { username, email, password, lists };
 
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, body, {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, body, {
                 withCredentials: true
             });
+
+            if (res.status < 200 && res.status >= 300) {
+                alert(`create account failed, status: ${res.status}`);
+                return;
+            }
 
             navigate("?register=success");
         }
         catch (error) {
             console.error(error);
-            alert(error);
+            alert(`create account failed, Debug error: ${error}`);
         }
     }
 
