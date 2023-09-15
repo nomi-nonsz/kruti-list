@@ -70,7 +70,28 @@ function SignUp ({ handle }) {
     </>
 }
 
-function LoginModal ({ stat }) {
+function RegisterSuccess () {
+    return (
+        <div className="w-screen h-screen absolute z-10 left-0 top-0 bg-black bg-opacity-20">
+            <div className="bg-white text-center p-10 absolute inset-0 m-auto w-[480px] h-fit rounded-md shadow-xl">
+                <section className="flex justify-end">
+                    <Link to="/">
+                        <i class="text-4xl text-slate-600 bi bi-x"></i>
+                    </Link>
+                </section>
+                <header className="">
+                    <i class="bi bi-check2-circle text-8xl my-12 block text-emerald-600"></i>
+                    <h1 className="text-lg my-4">Register Successful, Please Login</h1>
+                    <Link to="?login=login">
+                        <button className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-2 border-2 border-blue-600">Login</button>
+                    </Link>
+                </header>
+            </div>
+        </div>
+    )
+}
+
+function LoginModal ({ stat, list }) {
     const [state, setState] = useState(stat || 0);
     const navigate = useNavigate();
 
@@ -121,6 +142,7 @@ function LoginModal ({ stat }) {
         const username = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
+        const lists = list || [];
 
         if (!username || !email || !password) {
             alert("username, email and password required");
@@ -128,13 +150,13 @@ function LoginModal ({ stat }) {
         }
 
         try {
-            const body = { username, email, password };
+            const body = { username, email, password, lists };
 
             await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, body, {
                 withCredentials: true
             });
 
-            navigate("/");
+            navigate("?register=success");
         }
         catch (error) {
             console.error(error);
@@ -158,5 +180,7 @@ function LoginModal ({ stat }) {
         </div>
     )
 }
+
+LoginModal.RegisterSuccess = RegisterSuccess;
 
 export default LoginModal;

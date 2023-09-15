@@ -10,7 +10,7 @@ router.get("/test", (req, res) => {
 })
 
 router.post("/register", async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, lists } = req.body;
 
     try {
         if (!username || !email || !password)
@@ -22,9 +22,8 @@ router.post("/register", async (req, res) => {
             email,
             password: hashed,
             token: null,
-            lists: []
+            lists: lists || []
         }).save();
-        const data = user.toObject();
     
         return res.sendStatus(201);
     }

@@ -23,7 +23,9 @@ function Body() {
   const search = useLocation().search;
   const params = new URLSearchParams(search);
   const isLogin = params.get("login");
+  const isRegister = params.get("register");
 
+  const [list, setList] = useState([]);
   const [blink, setBlink] = useState(false);
 
   const autblink = () => {
@@ -31,7 +33,8 @@ function Body() {
   }
 
   return <>
-    {isLogin === "login" ? <LoginModal /> : (isLogin === "signup" && <LoginModal stat={1} />)}
+    {isRegister === "success" && <LoginModal.RegisterSuccess />}
+    {isLogin === "login" ? <LoginModal list={list} /> : (isLogin === "signup" && <LoginModal stat={1} list={list} />)}
     <div className="p-5 flex justify-between w-full">
       <img
         className="w-14"
@@ -50,6 +53,9 @@ function Body() {
             <button type="button" className="rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-6 py-2 border-2 border-blue-600">Login</button>
           </Link>
         </>) : (<>
+          <div className="text-4xl">
+            <i class="bi bi-person-circle text-blue-900"></i>
+          </div>
           <div className="">{Cookies.get("username")}</div>
           <button
             type="button"
@@ -71,7 +77,8 @@ function Body() {
       </header>
       <section className="mt-10 font-roboto">
         <ToDo
-          list={[]}
+          list={list}
+          setList={setList}
         />
       </section>
       <footer className="mt-20 text-center text-sm font-roboto">

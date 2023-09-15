@@ -3,9 +3,10 @@ import Cookies from "js-cookie";
 import AddList from "./form/addList";
 import Item from "./list";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ToDo(prop) {
+    const navigate = useNavigate();
     const location = useLocation();
     const [list, setList] = useState(prop.list);
 
@@ -30,7 +31,17 @@ function ToDo(prop) {
 
         axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/list`, body, {
             withCredentials: true
+        }).catch((error) => {
+            alert("Error: Invalid token");
         })
+    }
+
+    const handleSave = () => {
+        if (Cookies.get("token")) {
+            saveList();
+            return;
+        }
+        navigate("?login=login");
     }
 
     useEffect(() => {
@@ -45,10 +56,15 @@ function ToDo(prop) {
                     return data.lists;
                 })
                 .catch((error) => {
+                    alert("Error: Invalid token");
                     console.log(error);
                 })
         }
     }, [location]);
+
+    useEffect(() => {
+        prop.setList(list);
+    }, [list]);
 
     return (
         <div className="md:w-[540px] mx-auto">
@@ -67,7 +83,7 @@ function ToDo(prop) {
                 ))}
             </ul>
             {list.length > 0 &&
-                <button type="button" onClick={saveList} className="mt-2 rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-2">Save</button>
+                <button type="button" onClick={handleSave} className="mt-2 rounded h-fit transition duration-300 text-white bg-blue-600 hover:bg-blue-500 px-8 py-2">Save</button>
             }
         </div>
     );
